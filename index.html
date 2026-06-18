@@ -10,11 +10,14 @@
   --bg:#f8f9fa;--card:#fff;--border:#dee2e6;--text:#212529;--muted:#6c757d;
   --green:#198754;--green-bg:#d1e7dd;--yellow:#ffc107;--yellow-bg:#fff3cd;
   --red:#dc3545;--red-bg:#f8d7da;--blue:#0d6efd;--blue-bg:#cfe2ff;
-  --best-bg:#e8f5e9;--best-border:#4caf50;
+  --best-bg:#e8f5e9;--best-border:#4caf50;--ink:#102a43;--sky:#e7f1ff;
   --radius:10px;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:0;min-height:100dvh}
-.container{max-width:900px;margin:0 auto;padding:12px}
+.container{max-width:980px;margin:0 auto;padding:12px}
+h1{font-size:1.3rem;text-align:center;margin-bottom:2px}
+.subtitle{text-align:center;color:var(--muted);font-size:.8rem;margin-bottom:14px}
+.subtitle-inline{font-size:.82rem;color:var(--muted);margin-bottom:10px}
 
 /* Tabs */
 .tabs{display:flex;gap:0;margin-bottom:16px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
@@ -23,9 +26,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .tab-content{display:none}
 .tab-content.active{display:block}
 
-h1{font-size:1.3rem;text-align:center;margin-bottom:2px}
-.subtitle{text-align:center;color:var(--muted);font-size:.8rem;margin-bottom:14px}
-
 /* Cards */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px}
 .card h2{font-size:.85rem;margin-bottom:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
@@ -33,10 +33,16 @@ h1{font-size:1.3rem;text-align:center;margin-bottom:2px}
 /* Inputs */
 .field{margin-bottom:10px}
 .field label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
-.field input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:#fff;-webkit-appearance:none;-moz-appearance:textfield}
-.field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(13,110,253,.12)}
+.field input[type=number],.field select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:#fff;-webkit-appearance:none;-moz-appearance:textfield}
+.field input:focus,.field select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(13,110,253,.12)}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:400px){.field-row{grid-template-columns:1fr}}
+
+/* Buttons */
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:none;border-radius:8px;padding:10px 14px;font-size:.85rem;font-weight:600;cursor:pointer}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-secondary{background:#eef2f7;color:var(--ink);border:1px solid var(--border)}
 
 /* Toggle */
 .toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 0}
@@ -61,7 +67,7 @@ h1{font-size:1.3rem;text-align:center;margin-bottom:2px}
 .alert-info{background:var(--blue-bg);color:#084298;border:1px solid #b6d4fe}
 .alert.show{display:block}
 
-/* Table — mobile cards */
+/* Table */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px}
 table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:600px}
 th,td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
@@ -73,7 +79,7 @@ td .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72r
 .badge-warn{background:var(--yellow-bg);color:#664d03}
 .badge-no{background:var(--red-bg);color:var(--red)}
 
-/* Mobile cards view */
+/* Mobile cards */
 .mob-cards{display:none;gap:10px}
 @media(max-width:680px){
   .table-wrap{display:none}
@@ -81,8 +87,8 @@ td .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72r
 }
 .mob-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;position:relative}
 .mob-card.best{border-color:var(--best-border);border-width:2px;background:var(--best-bg)}
-.mob-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.mob-card-header .pct{font-size:1.2rem;font-weight:700}
+.mob-card-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.mob-card-header .pct{font-size:1.05rem;font-weight:700}
 .mob-card-header .star{color:var(--green);font-size:.8rem;font-weight:600}
 .mob-card-rows{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
 .mob-card-rows .r{display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;border-bottom:1px solid #f1f3f5}
@@ -106,10 +112,8 @@ td .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72r
 .redux-price label{font-size:.85rem;font-weight:600;white-space:nowrap}
 .redux-price input{flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:1.15rem;font-weight:600;text-align:center}
 .redux-price input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(13,110,253,.12)}
-
 .redux-params{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px}
 .redux-params .field input{padding:8px 10px;font-size:.9rem}
-
 .redux-grid{display:grid;grid-template-columns:1fr;gap:12px}
 .redux-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .redux-block-header{padding:12px 14px;font-weight:700;font-size:1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
@@ -136,6 +140,15 @@ td .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72r
 .redux-status.warn{background:var(--yellow-bg);color:#664d03}
 .redux-status.no{background:var(--red-bg);color:var(--red)}
 
+/* Loans */
+.loan-status{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--sky);border:1px solid #c9defc;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:.82rem;color:#084298}
+.loan-status strong{color:var(--ink)}
+.loan-meta{font-size:.78rem;color:var(--muted);margin-bottom:14px}
+.loan-empty{display:none}
+.loan-empty.show{display:block}
+.loan-source a,.loan-source a:visited{color:var(--blue)}
+.loan-rank{font-weight:700;color:var(--green)}
+
 footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:16px;padding-bottom:24px}
 </style>
 </head>
@@ -147,95 +160,130 @@ footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:16px;pad
 <div class="tabs">
   <button class="tab active" data-tab="full">Completa</button>
   <button class="tab" data-tab="redux">Redux</button>
+  <button class="tab" data-tab="loans">Préstecs</button>
 </div>
 
-<!-- ==================== FULL VIEW ==================== -->
 <div class="tab-content active" id="tab-full">
-
-<div class="summary-grid" id="summary"></div>
-<div class="alerts" id="alerts">
-  <div class="alert alert-info" id="alert-frac"></div>
-  <div class="alert alert-warn" id="alert-margin"></div>
-  <div class="alert alert-warn" id="alert-agency"></div>
-  <div class="alert alert-warn" id="alert-90"></div>
-  <div class="alert alert-danger" id="alert-none"></div>
-</div>
-
-<div class="card">
-  <h2>Preu i estalvis</h2>
-  <div class="field-row">
-    <div class="field"><label>Preu del pis (€)</label><input type="number" id="price" value="225000" step="1000"></div>
-    <div class="field"><label>Estalvis propis (€)</label><input type="number" id="savings" value="35000" step="500"></div>
+  <div class="summary-grid" id="summary"></div>
+  <div class="alerts" id="alerts">
+    <div class="alert alert-info" id="alert-frac"></div>
+    <div class="alert alert-warn" id="alert-margin"></div>
+    <div class="alert alert-warn" id="alert-agency"></div>
+    <div class="alert alert-warn" id="alert-90"></div>
+    <div class="alert alert-danger" id="alert-none"></div>
   </div>
-  <div class="field"><label>Donació rebuda (€)</label><input type="number" id="donation" value="20000" step="500"></div>
-</div>
 
-<div class="card">
-  <h2>Impostos i despeses</h2>
-  <div class="field-row">
-    <div class="field"><label>ITP (%)</label><input type="number" id="itp" value="10" step="0.5" min="0" max="100"></div>
-    <div class="field"><label>Honoraris agència (%)</label><input type="number" id="agency" value="2.5" step="0.1" min="0" max="100"></div>
-  </div>
-  <div class="field-row">
-    <div class="field"><label>IVA honoraris agència (%)</label><input type="number" id="agencyVat" value="21" step="1" min="0" max="100"></div>
-    <div class="field"><label>Despeses fixes (€)</label><input type="number" id="fixed" value="3000" step="100"></div>
-  </div>
-</div>
-
-<div class="card">
-  <h2>Hipoteca</h2>
-  <div class="field-row">
-    <div class="field"><label>Interès anual (%)</label><input type="number" id="rate" value="2.4" step="0.1" min="0" max="20"></div>
-    <div class="field"><label>Termini (anys)</label><input type="number" id="years" value="30" step="1" min="1" max="50"></div>
-  </div>
-  <div style="margin-top:8px">
-    <div class="toggle-row">
-      <label class="toggle"><input type="checkbox" id="fracToggle"><span class="slider"></span></label>
-      <span style="font-size:.85rem;font-weight:500">Fraccionar ITP</span>
+  <div class="card">
+    <h2>Preu i estalvis</h2>
+    <div class="field-row">
+      <div class="field"><label>Preu del pis (€)</label><input type="number" id="price" value="225000" step="1000"></div>
+      <div class="field"><label>Estalvis propis (€)</label><input type="number" id="savings" value="35000" step="500"></div>
     </div>
-    <div class="field-row" id="fracFields">
-      <div class="field"><label>Mesos fraccionament</label><input type="number" id="fracMonths" value="36" step="1" min="1" max="120"></div>
-      <div class="field"><label>Interessos fracc. (%)</label><input type="number" id="fracRate" value="0" step="0.1" min="0" max="20"></div>
+    <div class="field"><label>Donació rebuda (€)</label><input type="number" id="donation" value="20000" step="500"></div>
+  </div>
+
+  <div class="card">
+    <h2>Impostos i despeses</h2>
+    <div class="field-row">
+      <div class="field"><label>ITP (%)</label><input type="number" id="itp" value="10" step="0.5" min="0" max="100"></div>
+      <div class="field"><label>Honoraris agència (%)</label><input type="number" id="agency" value="2.5" step="0.1" min="0" max="100"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>IVA honoraris agència (%)</label><input type="number" id="agencyVat" value="21" step="1" min="0" max="100"></div>
+      <div class="field"><label>Despeses fixes (€)</label><input type="number" id="fixed" value="3000" step="100"></div>
     </div>
   </div>
+
+  <div class="card">
+    <h2>Hipoteca</h2>
+    <div class="field-row">
+      <div class="field"><label>Interès anual (%)</label><input type="number" id="rate" value="2.4" step="0.1" min="0" max="20"></div>
+      <div class="field"><label>Termini (anys)</label><input type="number" id="years" value="30" step="1" min="1" max="50"></div>
+    </div>
+    <div style="margin-top:8px">
+      <div class="toggle-row">
+        <label class="toggle"><input type="checkbox" id="fracToggle"><span class="slider"></span></label>
+        <span style="font-size:.85rem;font-weight:500">Fraccionar ITP</span>
+      </div>
+      <div class="field-row" id="fracFields">
+        <div class="field"><label>Mesos fraccionament</label><input type="number" id="fracMonths" value="36" step="1" min="1" max="120"></div>
+        <div class="field"><label>Interessos fracc. (%)</label><input type="number" id="fracRate" value="0" step="0.1" min="0" max="20"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>% hipoteca a comparar</h2>
+    <div class="pct-chips" id="pctChips"></div>
+    <button class="add-pct" id="addPct">+ Afegir</button>
+  </div>
+
+  <div class="table-wrap">
+    <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
+  </div>
+  <div class="mob-cards" id="mobCards"></div>
 </div>
 
-<div class="card">
-  <h2>% hipoteca a comparar</h2>
-  <div class="pct-chips" id="pctChips"></div>
-  <button class="add-pct" id="addPct">+ Afegir</button>
-</div>
-
-<div class="table-wrap">
-  <table><thead id="thead"></thead><tbody id="tbody"></tbody></table>
-</div>
-<div class="mob-cards" id="mobCards"></div>
-
-</div>
-
-<!-- ==================== REDUX VIEW ==================== -->
 <div class="tab-content" id="tab-redux">
+  <div class="redux-price">
+    <label>Preu total €</label>
+    <input type="number" id="rx-price" value="225000" step="1000">
+  </div>
 
-<div class="redux-price">
-  <label>Preu total €</label>
-  <input type="number" id="rx-price" value="225000" step="1000">
+  <div class="redux-params">
+    <div class="field"><label>Estalvis (€)</label><input type="number" id="rx-savings" value="35000" step="500"></div>
+    <div class="field"><label>Donació (€)</label><input type="number" id="rx-donation" value="20000" step="500"></div>
+    <div class="field"><label>ITP (%)</label><input type="number" id="rx-itp" value="10" step="0.5"></div>
+    <div class="field"><label>Agència (%+IVA)</label><input type="number" id="rx-agency" value="2.5" step="0.1"></div>
+    <div class="field"><label>IVA agència (%)</label><input type="number" id="rx-agencyVat" value="21" step="1"></div>
+    <div class="field"><label>Despeses fixes (€)</label><input type="number" id="rx-fixed" value="3000" step="100"></div>
+    <div class="field"><label>Interès (%)</label><input type="number" id="rx-rate" value="2.4" step="0.1"></div>
+    <div class="field"><label>Anys</label><input type="number" id="rx-years" value="30" step="1" min="1"></div>
+    <div class="field"><label>Mesos fracc. ITP</label><input type="number" id="rx-fracMonths" value="36" step="1" min="1"></div>
+    <div class="field"><label>Int. fracc. (%)</label><input type="number" id="rx-fracRate" value="0" step="0.1"></div>
+  </div>
+
+  <div class="redux-grid" id="reduxGrid"></div>
 </div>
 
-<div class="redux-params">
-  <div class="field"><label>Estalvis (€)</label><input type="number" id="rx-savings" value="35000" step="500"></div>
-  <div class="field"><label>Donació (€)</label><input type="number" id="rx-donation" value="20000" step="500"></div>
-  <div class="field"><label>ITP (%)</label><input type="number" id="rx-itp" value="10" step="0.5"></div>
-  <div class="field"><label>Agència (%+IVA)</label><input type="number" id="rx-agency" value="2.5" step="0.1"></div>
-  <div class="field"><label>IVA agència (%)</label><input type="number" id="rx-agencyVat" value="21" step="1"></div>
-  <div class="field"><label>Despeses fixes (€)</label><input type="number" id="rx-fixed" value="3000" step="100"></div>
-  <div class="field"><label>Interès (%)</label><input type="number" id="rx-rate" value="2.4" step="0.1"></div>
-  <div class="field"><label>Anys</label><input type="number" id="rx-years" value="30" step="1" min="1"></div>
-  <div class="field"><label>Mesos fracc. ITP</label><input type="number" id="rx-fracMonths" value="36" step="1" min="1"></div>
-  <div class="field"><label>Int. fracc. (%)</label><input type="number" id="rx-fracRate" value="0" step="0.1"></div>
-</div>
+<div class="tab-content" id="tab-loans">
+  <div class="card">
+    <h2>Comparador de préstecs ràpids</h2>
+    <p class="subtitle-inline">Ofertes online sense necessitat de domiciliar nòmina o canviar de banc. El TIN mostrat és una estimació basada en el rang públic anunciat per cada portal.</p>
+    <div class="field-row">
+      <div class="field"><label>Import a demanar (€)</label><input type="number" id="loanAmount" value="10000" step="500" min="500"></div>
+      <div class="field"><label>Mesos</label><input type="number" id="loanMonths" value="48" step="1" min="1"></div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Ordenar per</label>
+        <select id="loanSort">
+          <option value="monthly">Cost mensual</option>
+          <option value="tin">TIN estimat</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Filtre</label>
+        <select id="loanMode">
+          <option value="compatible">Només ofertes compatibles</option>
+          <option value="all">Totes les ofertes cachejades</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-bottom:12px">
+      <button class="btn btn-primary" id="loanSearch">Buscar ofertes</button>
+      <button class="btn btn-secondary" id="loanRefresh">Refrescar dades guardades</button>
+    </div>
+    <div class="loan-status" id="loanStatus"></div>
+    <div class="loan-meta" id="loanMeta"></div>
+    <div class="alert alert-danger loan-empty" id="loanEmpty"></div>
+  </div>
 
-<div class="redux-grid" id="reduxGrid"></div>
-
+  <div class="summary-grid" id="loanSummary"></div>
+  <div class="table-wrap">
+    <table><thead id="loanHead"></thead><tbody id="loanBody"></tbody></table>
+  </div>
+  <div class="mob-cards" id="loanCards"></div>
 </div>
 
 <footer>Eina orientativa — consulta un professional abans de prendre decisions financeres.</footer>
@@ -244,10 +292,122 @@ footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:16px;pad
 <script>
 const fmt = v => v.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
 const fmtShort = v => v.toLocaleString('ca-ES',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' €';
+const fmtPct = v => Number(v).toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' %';
 
 let pcts = [80, 85, 90, 95, 100];
 const $ = id => document.getElementById(id);
 const val = id => parseFloat($(id).value) || 0;
+
+const loanSeed = {
+  scrapedAt: '2026-06-18',
+  offers: [
+    {
+      id: 'bbva-rapid',
+      provider: 'BBVA',
+      product: 'Préstamo Rápido Online Sin Documentos',
+      sourceUrl: 'https://www.bbva.es/content/experience-fragments/public-web-new/bbvaes/personas/home/home/prestamo-rapido-no-clientes.html',
+      sourceLabel: 'BBVA',
+      noPayroll: true,
+      noPayrollText: 'Sense obrir compte ni domiciliar nòmina',
+      amountMin: 3000,
+      amountMax: 20000,
+      monthsMin: 24,
+      monthsMax: 96,
+      tinMin: 6.6,
+      tinMax: 6.6,
+      taeMin: 6.803,
+      taeMax: 6.803,
+      fees: 'Sense comissió d’obertura',
+      notes: 'Tipus publicat específic per a l’opció sense nòmina.'
+    },
+    {
+      id: 'oney-personal',
+      provider: 'Oney',
+      product: 'Préstamo Personal Online',
+      sourceUrl: 'https://prestamos.oney.es/',
+      sourceLabel: 'Oney',
+      noPayroll: true,
+      noPayrollText: 'Sense canviar de banc',
+      amountMin: 1000,
+      amountMax: 45000,
+      monthsMin: 12,
+      monthsMax: 120,
+      tinMin: 8.0,
+      tinMax: 12.46,
+      taeMin: 8.3,
+      taeMax: 13.2,
+      fees: 'Sense comissions',
+      notes: 'El TIN varia segons import, termini i destí.'
+    },
+    {
+      id: 'cetelem-projectes',
+      provider: 'Cetelem',
+      product: 'Préstamo Otros Proyectos',
+      sourceUrl: 'https://www.cetelem.es/prestamos/prestamo-otros-proyectos',
+      sourceLabel: 'Cetelem',
+      noPayroll: true,
+      noPayrollText: 'Sense domiciliar nòmina ni canviar de banc',
+      amountMin: 6000,
+      amountMax: 60000,
+      monthsMin: 12,
+      monthsMax: 96,
+      tinMin: 10.59,
+      tinMax: 12.49,
+      taeMin: 11.12,
+      taeMax: 13.23,
+      fees: 'Sense productes afegits',
+      rules: [
+        { amountMaxExclusive: 10000, monthsMax: 60 }
+      ],
+      notes: 'Per sota de 10.000 €, el màxim publicat és 60 mesos.'
+    },
+    {
+      id: 'bankintercard-personal',
+      provider: 'Bankintercard',
+      product: 'Préstamo personal online',
+      sourceUrl: 'https://www.bankinterconsumerfinance.com/financiacion/prestamos/prestamo-personal',
+      sourceLabel: 'Bankinter Consumer Finance',
+      noPayroll: true,
+      noPayrollText: 'Sense vinculacions i sense canviar de banc',
+      amountMin: 4000,
+      amountMax: 30000,
+      monthsMin: 24,
+      monthsMax: 120,
+      tinMin: 4.45,
+      tinMax: 12.49,
+      taeMin: 4.54,
+      taeMax: 13.23,
+      fees: '0 % obertura si el procés és 100 % online',
+      notes: 'Rang públic del simulador; el tipus final depèn del perfil.'
+    }
+  ]
+};
+
+let loanData = structuredClone(loanSeed);
+
+function setAlert(id, show, msg) {
+  const el = $(id);
+  el.classList.toggle('show', show);
+  el.innerHTML = msg || '';
+}
+
+function normalize(value, min, max) {
+  if (max <= min) return 0;
+  return Math.min(1, Math.max(0, (value - min) / (max - min)));
+}
+
+function monthlyAmortization(principal, annualRate, months) {
+  if (months <= 0) return 0;
+  if (annualRate === 0) return principal / months;
+  const i = annualRate / 100 / 12;
+  return principal * i / (1 - Math.pow(1 + i, -months));
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'sense data';
+  const d = new Date(dateStr);
+  return Number.isNaN(d.getTime()) ? dateStr : d.toLocaleDateString('ca-ES');
+}
 
 // ---- Tabs ----
 document.querySelectorAll('.tab').forEach(t => {
@@ -257,20 +417,29 @@ document.querySelectorAll('.tab').forEach(t => {
     t.classList.add('active');
     $('tab-' + t.dataset.tab).classList.add('active');
     if (t.dataset.tab === 'redux') calcRedux();
+    if (t.dataset.tab === 'loans') renderLoans();
   });
 });
 
 // ---- Pct chips ----
 function renderChips() {
-  const c = $('pctChips'); c.innerHTML = '';
+  const c = $('pctChips');
+  c.innerHTML = '';
   pcts.forEach((p, i) => {
-    const d = document.createElement('div'); d.className = 'pct-chip';
+    const d = document.createElement('div');
+    d.className = 'pct-chip';
     const inp = document.createElement('input');
-    inp.type = 'number'; inp.value = p; inp.min = 1; inp.max = 100; inp.step = 1;
+    inp.type = 'number';
+    inp.value = p;
+    inp.min = 1;
+    inp.max = 100;
+    inp.step = 1;
     inp.addEventListener('input', () => { pcts[i] = parseFloat(inp.value) || 0; calcFull(); });
-    d.appendChild(inp); d.insertAdjacentHTML('beforeend', '%');
+    d.appendChild(inp);
+    d.insertAdjacentHTML('beforeend', '%');
     if (pcts.length > 1) {
-      const btn = document.createElement('button'); btn.textContent = '×';
+      const btn = document.createElement('button');
+      btn.textContent = '×';
       btn.addEventListener('click', () => { pcts.splice(i, 1); renderChips(); calcFull(); });
       d.appendChild(btn);
     }
@@ -312,9 +481,9 @@ function calcFull() {
   $('summary').innerHTML = [
     ['Preu', fmtShort(price)], ['Disponible', fmtShort(available)],
     ['ITP', fmtShort(itpTotal)], ['Agència', fmt(agencyGross)], ['Desp. fixes', fmtShort(fixedCosts)]
-  ].map(([l,v]) => `<div class="summary-item"><div class="val">${v}</div><div class="lbl">${l}</div></div>`).join('');
+  ].map(([l, v]) => `<div class="summary-item"><div class="val">${v}</div><div class="lbl">${l}</div></div>`).join('');
 
-  const sorted = [...pcts].sort((a,b) => a-b);
+  const sorted = [...pcts].sort((a, b) => a - b);
   const rows = sorted.map(pct => {
     const mortgage = price * pct / 100, entry = price - mortgage;
     const costNoFrac = entry + itpTotal + agencyGross + fixedCosts;
@@ -324,69 +493,66 @@ function calcFull() {
     const status = viability(available, cost);
     const monthly = monthlyMortgage(mortgage, rate, years);
     const fracMonthly = fracOn ? monthlyFrac(itpTotal, fracMo, fracRt) : 0;
-    return { pct, mortgage, entry, itpTotal, agencyNet, agencyVatAmt, agencyGross, fixedCosts, costNoFrac, costFrac, cost, diff, status, monthly, fracMonthly, totalDuring: monthly + fracMonthly, totalAfter: monthly, available };
+    return { pct, mortgage, entry, itpTotal, agencyGross, fixedCosts, costNoFrac, costFrac, cost, diff, status, monthly, fracMonthly, totalDuring: monthly + fracMonthly, totalAfter: monthly, available };
   });
 
   let bestIdx = -1;
   for (let i = 0; i < rows.length; i++) {
     if (rows[i].status !== 'no' && (bestIdx === -1 || rows[i].pct < rows[bestIdx].pct)) bestIdx = i;
   }
-  if (bestIdx === -1) { let mx = -Infinity; rows.forEach((r,i) => { if (r.diff > mx) { mx = r.diff; bestIdx = i; } }); }
+  if (bestIdx === -1) {
+    let mx = -Infinity;
+    rows.forEach((r, i) => { if (r.diff > mx) { mx = r.diff; bestIdx = i; } });
+  }
 
-  const badgeCls = { ok:'badge-ok', warn:'badge-warn', no:'badge-no' };
-
-  // Desktop table
-  $('thead').innerHTML = `<tr><th>Concepte</th>${rows.map((r,i) => `<th${i===bestIdx?' style="color:var(--green)"':''}>${r.pct}%${i===bestIdx?' ★':''}</th>`).join('')}</tr>`;
+  const badgeCls = { ok: 'badge-ok', warn: 'badge-warn', no: 'badge-no' };
+  $('thead').innerHTML = `<tr><th>Concepte</th>${rows.map((r, i) => `<th${i === bestIdx ? ' style="color:var(--green)"' : ''}>${r.pct}%${i === bestIdx ? ' ★' : ''}</th>`).join('')}</tr>`;
   const defs = [
     ['Hipoteca', r => fmt(r.mortgage)], ['Entrada', r => fmt(r.entry)],
-    ['ITP', r => fmt(r.itpTotal)],
-    ['Honoraris agència', r => fmt(r.agencyGross)],
-    ['Despeses fixes', r => fmt(r.fixedCosts)],
-    ['Cost inicial (s/ fracc.)', r => fmt(r.costNoFrac)],
-    ['Cost inicial (amb fracc.)', r => fmt(r.costFrac)],
-    ['—', null],
+    ['ITP', r => fmt(r.itpTotal)], ['Honoraris agència', r => fmt(r.agencyGross)],
+    ['Despeses fixes', r => fmt(r.fixedCosts)], ['Cost inicial (s/ fracc.)', r => fmt(r.costNoFrac)],
+    ['Cost inicial (amb fracc.)', r => fmt(r.costFrac)], ['—', null],
     ['Disponible', r => fmt(r.available)],
-    ['Diferència', r => `<span style="color:${r.diff>=0?'var(--green)':'var(--red)'};font-weight:600">${r.diff>=0?'+':''}${fmt(r.diff)}</span>`],
-    ['Resultat', r => `<span class="badge ${badgeCls[r.status]}">${statusLabel[r.status]}</span>`],
-    ['—', null],
-    ['Quota hipoteca/mes', r => fmt(r.monthly)],
+    ['Diferència', r => `<span style="color:${r.diff >= 0 ? 'var(--green)' : 'var(--red)'};font-weight:600">${r.diff >= 0 ? '+' : ''}${fmt(r.diff)}</span>`],
+    ['Resultat', r => `<span class="badge ${badgeCls[r.status]}">${statusLabel[r.status]}</span>`], ['—', null],
+    ['Quota hipoteca/mes', r => fmt(r.monthly)]
   ];
   if (fracOn) {
     defs.push(['Quota ITP fracc./mes', r => fmt(r.fracMonthly)]);
     defs.push(['Total mensual (fracc.)', r => `<strong>${fmt(r.totalDuring)}</strong>`]);
     defs.push(['Total mensual (post)', r => fmt(r.totalAfter)]);
   }
-  $('tbody').innerHTML = defs.map(([l,fn]) => {
-    if (!fn) return `<tr><td colspan="${rows.length+1}" style="height:4px;border:none"></td></tr>`;
-    return `<tr>${[`<td style="text-align:left;font-weight:500;background:var(--card)">${l}</td>`, ...rows.map((r,i) => `<td${i===bestIdx?' style="background:var(--best-bg)"':''}>${fn(r)}</td>`)].join('')}</tr>`;
+  $('tbody').innerHTML = defs.map(([l, fn]) => {
+    if (!fn) return `<tr><td colspan="${rows.length + 1}" style="height:4px;border:none"></td></tr>`;
+    return `<tr>${[`<td style="text-align:left;font-weight:500;background:var(--card)">${l}</td>`, ...rows.map((r, i) => `<td${i === bestIdx ? ' style="background:var(--best-bg)"' : ''}>${fn(r)}</td>`)].join('')}</tr>`;
   }).join('');
 
-  // Mobile cards
   $('mobCards').innerHTML = rows.map((r, i) => {
     const isBest = i === bestIdx;
     const lines = [
       ['Hipoteca', fmt(r.mortgage)], ['Entrada', fmt(r.entry)],
       ['ITP', fmt(r.itpTotal)], ['Agència', fmt(r.agencyGross)],
-      ['Desp. fixes', fmt(r.fixedCosts)],
-      ['Cost s/fracc.', fmt(r.costNoFrac)], ['Cost fracc.', fmt(r.costFrac)],
-      ['Quota/mes', fmt(r.monthly)],
+      ['Desp. fixes', fmt(r.fixedCosts)], ['Cost s/fracc.', fmt(r.costNoFrac)],
+      ['Cost fracc.', fmt(r.costFrac)], ['Quota/mes', fmt(r.monthly)]
     ];
-    if (fracOn) { lines.push(['Quota fracc.', fmt(r.fracMonthly)]); lines.push(['Total/mes', fmt(r.totalDuring)]); }
-    return `<div class="mob-card${isBest?' best':''}">
+    if (fracOn) {
+      lines.push(['Quota fracc.', fmt(r.fracMonthly)]);
+      lines.push(['Total/mes', fmt(r.totalDuring)]);
+    }
+    return `<div class="mob-card${isBest ? ' best' : ''}">
       <div class="mob-card-header">
         <span class="pct">${r.pct}%</span>
-        ${isBest?'<span class="star">★ Millor opció</span>':''}
+        ${isBest ? '<span class="star">★ Millor opció</span>' : ''}
         <span class="badge ${badgeCls[r.status]}">${statusLabel[r.status]}</span>
       </div>
-      <div class="mob-card-rows">${lines.map(([k,v]) => `<div class="r"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
+      <div class="mob-card-rows">${lines.map(([k, v]) => `<div class="r"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
       <div class="mob-card-footer">
         <span style="color:var(--muted);font-size:.82rem">Diferència</span>
-        <span class="diff" style="color:${r.diff>=0?'var(--green)':'var(--red)'}">${r.diff>=0?'+':''}${fmt(r.diff)}</span>
+        <span class="diff" style="color:${r.diff >= 0 ? 'var(--green)' : 'var(--red)'}">${r.diff >= 0 ? '+' : ''}${fmt(r.diff)}</span>
       </div>
     </div>`;
   }).join('');
 
-  // Alerts
   const anyOk = rows.some(r => r.status !== 'no');
   const allOkNoFrac = rows.some(r => available - r.costNoFrac >= 0);
   const onlyWithFrac = fracOn && anyOk && !allOkNoFrac;
@@ -394,12 +560,11 @@ function calcFull() {
   const agencyBlocks = rows.some(r => r.status === 'no' && available - (r.cost - r.agencyGross) >= 0);
   const any90plus = rows.some(r => r.status !== 'no' && r.pct > 90);
   const noneViable = !anyOk;
-  const sa = (id,show,msg) => { const el=$(id); el.classList.toggle('show',show); el.innerHTML=msg||''; };
-  sa('alert-frac', onlyWithFrac, "💡 L'operació només quadra si fraccioneu l'ITP.");
-  sa('alert-margin', anyWarn && !noneViable, '⚠️ Alguna opció va justa — marge < 3.000 €.');
-  sa('alert-agency', agencyBlocks, "⚠️ Els honoraris d'agència fan que alguna opció no quadri.");
-  sa('alert-90', any90plus, '⚠️ Hipoteques > 90% poden ser difícils d\'obtenir.');
-  sa('alert-none', noneViable, '❌ Cap opció quadra amb els paràmetres actuals.');
+  setAlert('alert-frac', onlyWithFrac, "💡 L'operació només quadra si fraccioneu l'ITP.");
+  setAlert('alert-margin', anyWarn && !noneViable, '⚠️ Alguna opció va justa — marge < 3.000 €.');
+  setAlert('alert-agency', agencyBlocks, "⚠️ Els honoraris d'agència fan que alguna opció no quadri.");
+  setAlert('alert-90', any90plus, '⚠️ Hipoteques > 90% poden ser difícils d\'obtenir.');
+  setAlert('alert-none', noneViable, '❌ Cap opció quadra amb els paràmetres actuals.');
 }
 
 // ---- REDUX calc ----
@@ -431,21 +596,17 @@ function calcRedux() {
 
   let bestIdx = -1;
   for (let i = 0; i < blocks.length; i++) {
-    if (blocks[i].statusNoFrac !== 'no' || blocks[i].statusFrac !== 'no') {
-      bestIdx = i; break;
-    }
+    if (blocks[i].statusNoFrac !== 'no' || blocks[i].statusFrac !== 'no') { bestIdx = i; break; }
   }
 
   $('reduxGrid').innerHTML = blocks.map((b, i) => {
     const isBest = i === bestIdx;
-    const bestStatus = b.statusNoFrac !== 'no' ? b.statusNoFrac : b.statusFrac;
     const bestLabel = b.statusNoFrac !== 'no' ? statusLabel[b.statusNoFrac] : (b.statusFrac !== 'no' ? statusLabel[b.statusFrac] + ' (fraccionant)' : statusLabel.no);
     const statusCls = b.statusNoFrac !== 'no' ? b.statusNoFrac : (b.statusFrac !== 'no' ? b.statusFrac : 'no');
-
-    return `<div class="redux-block${isBest?' best':''}">
+    return `<div class="redux-block${isBest ? ' best' : ''}">
       <div class="redux-block-header">
         <span>Hipoteca ${b.pct}% — ${fmt(b.mortgage)}</span>
-        ${isBest?'<span class="star">★ Millor</span>':''}
+        ${isBest ? '<span class="star">★ Millor</span>' : ''}
       </div>
       <div class="redux-sub">
         <div class="redux-col">
@@ -456,8 +617,8 @@ function calcRedux() {
           <div class="redux-line"><span class="k">Desp. fixes</span><span class="v">${fmt(b.fixedCosts)}</span></div>
           <div class="redux-line total"><span class="k">Cost inicial</span><span class="v">${fmt(b.costNoFrac)}</span></div>
           <div class="redux-line"><span class="k">Disponible</span><span class="v">${fmtShort(available)}</span></div>
-          <div class="redux-line"><span class="k">Diferència</span><span class="v" style="color:${b.diffNoFrac>=0?'var(--green)':'var(--red)'}">${b.diffNoFrac>=0?'+':''}${fmt(b.diffNoFrac)}</span></div>
-          <div style="margin-top:4px"><span class="badge ${b.statusNoFrac==='ok'?'badge-ok':b.statusNoFrac==='warn'?'badge-warn':'badge-no'}">${statusLabel[b.statusNoFrac]}</span></div>
+          <div class="redux-line"><span class="k">Diferència</span><span class="v" style="color:${b.diffNoFrac >= 0 ? 'var(--green)' : 'var(--red)'}">${b.diffNoFrac >= 0 ? '+' : ''}${fmt(b.diffNoFrac)}</span></div>
+          <div style="margin-top:4px"><span class="badge ${b.statusNoFrac === 'ok' ? 'badge-ok' : b.statusNoFrac === 'warn' ? 'badge-warn' : 'badge-no'}">${statusLabel[b.statusNoFrac]}</span></div>
         </div>
         <div class="redux-col">
           <div class="redux-col-title">Fraccionant ITP (${Math.round(fracMo)}m)</div>
@@ -466,8 +627,8 @@ function calcRedux() {
           <div class="redux-line"><span class="k">Desp. fixes</span><span class="v">${fmt(b.fixedCosts)}</span></div>
           <div class="redux-line total"><span class="k">Cost inicial</span><span class="v">${fmt(b.costFrac)}</span></div>
           <div class="redux-line"><span class="k">Disponible</span><span class="v">${fmtShort(available)}</span></div>
-          <div class="redux-line"><span class="k">Diferència</span><span class="v" style="color:${b.diffFrac>=0?'var(--green)':'var(--red)'}">${b.diffFrac>=0?'+':''}${fmt(b.diffFrac)}</span></div>
-          <div style="margin-top:4px"><span class="badge ${b.statusFrac==='ok'?'badge-ok':b.statusFrac==='warn'?'badge-warn':'badge-no'}">${statusLabel[b.statusFrac]}</span></div>
+          <div class="redux-line"><span class="k">Diferència</span><span class="v" style="color:${b.diffFrac >= 0 ? 'var(--green)' : 'var(--red)'}">${b.diffFrac >= 0 ? '+' : ''}${fmt(b.diffFrac)}</span></div>
+          <div style="margin-top:4px"><span class="badge ${b.statusFrac === 'ok' ? 'badge-ok' : b.statusFrac === 'warn' ? 'badge-warn' : 'badge-no'}">${statusLabel[b.statusFrac]}</span></div>
         </div>
       </div>
       <div class="redux-monthly">
@@ -482,10 +643,144 @@ function calcRedux() {
   }).join('');
 }
 
+// ---- Loans ----
+function offerSupports(offer, amount, months) {
+  if (amount < offer.amountMin || amount > offer.amountMax) return false;
+  if (months < offer.monthsMin || months > offer.monthsMax) return false;
+  if (offer.rules) {
+    for (const rule of offer.rules) {
+      if (rule.amountMaxExclusive && amount < rule.amountMaxExclusive && months > rule.monthsMax) return false;
+      if (rule.amountMinInclusive && amount >= rule.amountMinInclusive && months > rule.monthsMax) return false;
+    }
+  }
+  return true;
+}
+
+function estimateTin(offer, amount, months) {
+  if (offer.tinMin === offer.tinMax) return offer.tinMin;
+  const amountWeight = normalize(amount, offer.amountMin, offer.amountMax);
+  const monthsWeight = normalize(months, offer.monthsMin, offer.monthsMax);
+  const score = (amountWeight * 0.35) + (monthsWeight * 0.65);
+  return offer.tinMin + ((offer.tinMax - offer.tinMin) * score);
+}
+
+function buildLoanRows() {
+  const amount = val('loanAmount');
+  const months = val('loanMonths');
+  const sortBy = $('loanSort').value;
+  const mode = $('loanMode').value;
+
+  const rows = loanData.offers.map(offer => {
+    const compatible = offerSupports(offer, amount, months);
+    const tin = estimateTin(offer, amount, months);
+    const monthly = monthlyAmortization(amount, tin, months);
+    const totalCost = (monthly * months) - amount;
+    return { ...offer, compatible, tin, monthly, totalCost };
+  }).filter(row => mode === 'all' ? true : row.compatible);
+
+  rows.sort((a, b) => sortBy === 'tin' ? a.tin - b.tin || a.monthly - b.monthly : a.monthly - b.monthly || a.tin - b.tin);
+  return { amount, months, sortBy, mode, rows };
+}
+
+function renderLoans() {
+  const { amount, months, sortBy, mode, rows } = buildLoanRows();
+  const visible = rows.length;
+  const compatibleCount = loanData.offers.filter(offer => offerSupports(offer, amount, months)).length;
+
+  $('loanStatus').innerHTML = [
+    `<span><strong>Dades:</strong> ${loanData.offers.length} ofertes cachejades</span>`,
+    `<span><strong>Últim scrape:</strong> ${formatDate(loanData.scrapedAt)}</span>`
+  ].join('');
+
+  $('loanMeta').innerHTML = compatibleCount
+    ? `Consulta preparada per a <strong>${fmtShort(amount)}</strong> a <strong>${months} mesos</strong>. Ordenació actual: <strong>${sortBy === 'tin' ? 'TIN estimat' : 'cost mensual'}</strong>. Mode: <strong>${mode === 'all' ? 'totes les ofertes' : 'només compatibles'}</strong>.`
+    : `Cap portal cachejat compleix ara mateix l'import i el termini indicats.`;
+
+  setAlert('loanEmpty', visible === 0, 'No hi ha resultats amb aquests filtres. Prova de baixar l’import, escurçar el termini o canviar a "Totes les ofertes cachejades".');
+
+  const bestMonthly = rows.length ? [...rows].sort((a, b) => a.monthly - b.monthly)[0] : null;
+  const bestTin = rows.length ? [...rows].sort((a, b) => a.tin - b.tin)[0] : null;
+  $('loanSummary').innerHTML = [
+    ['Compatibles', compatibleCount.toString()],
+    ['Millor quota', bestMonthly ? fmt(bestMonthly.monthly) : '—'],
+    ['TIN més baix', bestTin ? fmtPct(bestTin.tin) : '—'],
+    ['Dataset', formatDate(loanData.scrapedAt)]
+  ].map(([l, v]) => `<div class="summary-item"><div class="val">${v}</div><div class="lbl">${l}</div></div>`).join('');
+
+  $('loanHead').innerHTML = `<tr>
+    <th>Rànquing</th>
+    <th>Portal</th>
+    <th>TIN est.</th>
+    <th>Quota / mes</th>
+    <th>Cost total</th>
+    <th>Rang admès</th>
+    <th>Condicions</th>
+    <th>Font</th>
+  </tr>`;
+
+  $('loanBody').innerHTML = rows.map((row, index) => `<tr>
+    <td class="loan-rank">#${index + 1}</td>
+    <td style="text-align:left">
+      <strong>${row.provider}</strong><br>
+      <span style="color:var(--muted)">${row.product}</span>
+      ${row.compatible ? '' : '<br><span class="badge badge-no">Fora de rang</span>'}
+    </td>
+    <td>${fmtPct(row.tin)}</td>
+    <td><strong>${fmt(row.monthly)}</strong></td>
+    <td>${fmt(row.totalCost)}</td>
+    <td>${fmtShort(row.amountMin)} - ${fmtShort(row.amountMax)}<br>${row.monthsMin} - ${row.monthsMax} mesos</td>
+    <td style="text-align:left">${row.noPayrollText}<br><span style="color:var(--muted)">${row.fees}</span></td>
+    <td class="loan-source" style="text-align:left"><a href="${row.sourceUrl}" target="_blank" rel="noopener noreferrer">${row.sourceLabel}</a><br><span style="color:var(--muted)">${row.notes}</span></td>
+  </tr>`).join('');
+
+  $('loanCards').innerHTML = rows.map((row, index) => `<div class="mob-card${index === 0 ? ' best' : ''}">
+    <div class="mob-card-header">
+      <span class="pct">${row.provider}</span>
+      ${index === 0 ? '<span class="star">★ Millor ara</span>' : ''}
+      <span class="badge ${row.compatible ? 'badge-ok' : 'badge-no'}">${row.compatible ? 'Compatible' : 'Fora de rang'}</span>
+    </div>
+    <div class="mob-card-rows">
+      <div class="r"><span class="k">Producte</span><span class="v">${row.product}</span></div>
+      <div class="r"><span class="k">TIN est.</span><span class="v">${fmtPct(row.tin)}</span></div>
+      <div class="r"><span class="k">Quota</span><span class="v">${fmt(row.monthly)}</span></div>
+      <div class="r"><span class="k">Cost total</span><span class="v">${fmt(row.totalCost)}</span></div>
+      <div class="r"><span class="k">Import</span><span class="v">${fmtShort(row.amountMin)} - ${fmtShort(row.amountMax)}</span></div>
+      <div class="r"><span class="k">Mesos</span><span class="v">${row.monthsMin} - ${row.monthsMax}</span></div>
+      <div class="r"><span class="k">Condicions</span><span class="v">${row.noPayrollText}</span></div>
+      <div class="r"><span class="k">Font</span><span class="v"><a href="${row.sourceUrl}" target="_blank" rel="noopener noreferrer">${row.sourceLabel}</a></span></div>
+    </div>
+    <div class="mob-card-footer">
+      <span style="color:var(--muted);font-size:.82rem">${row.notes}</span>
+      <span class="diff">#${index + 1}</span>
+    </div>
+  </div>`).join('');
+}
+
+async function refreshLoanData() {
+  $('loanStatus').innerHTML = '<span><strong>Refrescant...</strong> intentant carregar el JSON publicat més recent.</span>';
+  try {
+    const res = await fetch(`data/prestecs-rapids.json?ts=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json || !Array.isArray(json.offers)) throw new Error('Format invàlid');
+    loanData = json;
+    renderLoans();
+  } catch (err) {
+    loanData = structuredClone(loanSeed);
+    $('loanStatus').innerHTML = [
+      '<span><strong>Refresc fallit.</strong> S’han mantingut les dades incloses a l’HTML.</span>',
+      '<span>Per actualitzar de debò, cal regenerar <code>data/prestecs-rapids.json</code>.</span>'
+    ].join('');
+  }
+}
+
 // ---- Bind ----
 document.querySelectorAll('#tab-full input[type=number]').forEach(el => el.addEventListener('input', calcFull));
 $('fracToggle').addEventListener('change', calcFull);
 document.querySelectorAll('#tab-redux input[type=number]').forEach(el => el.addEventListener('input', calcRedux));
+['loanAmount', 'loanMonths', 'loanSort', 'loanMode'].forEach(id => $(id).addEventListener('input', renderLoans));
+$('loanSearch').addEventListener('click', renderLoans);
+$('loanRefresh').addEventListener('click', refreshLoanData);
 
 // Sync price between views
 $('price').addEventListener('input', () => { $('rx-price').value = $('price').value; });
@@ -494,6 +789,7 @@ $('rx-price').addEventListener('input', () => { $('price').value = $('rx-price')
 renderChips();
 calcFull();
 calcRedux();
+renderLoans();
 </script>
 </body>
 </html>
