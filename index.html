@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de compra d'habitatge — Catalunya</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fa;--card:#fff;--border:#dee2e6;--text:#212529;--muted:#6c757d;
+  --green:#198754;--green-bg:#d1e7dd;--yellow:#ffc107;--yellow-bg:#fff3cd;
+  --red:#dc3545;--red-bg:#f8d7da;--blue:#0d6efd;--blue-bg:#cfe2ff;
+  --best-bg:#e8f5e9;--best-border:#4caf50;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:12px}
+h1{font-size:1.4rem;text-align:center;margin-bottom:4px}
+.subtitle{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:16px}
+.grid{display:grid;gap:12px;margin-bottom:16px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px}
+.card h2{font-size:.95rem;margin-bottom:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:2px}
+input[type=number],input[type=text]{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:.95rem;margin-bottom:8px;background:#fff}
+input[type=number]:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(13,110,253,.15)}
+.toggle-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;inset:0;background:#ccc;border-radius:24px;cursor:pointer;transition:.2s}
+.toggle .slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:var(--blue)}
+.toggle input:checked+.slider:before{transform:translateX(20px)}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px}
+.summary-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.summary-item .val{font-size:1.2rem;font-weight:700;color:var(--text)}
+.summary-item .lbl{font-size:.75rem;color:var(--muted)}
+.alerts{margin-bottom:16px;display:flex;flex-direction:column;gap:6px}
+.alert{padding:10px 14px;border-radius:8px;font-size:.85rem;display:none}
+.alert-warn{background:var(--yellow-bg);color:#664d03;border:1px solid #ffecb5}
+.alert-danger{background:var(--red-bg);color:#842029;border:1px solid #f5c2c7}
+.alert-info{background:var(--blue-bg);color:#084298;border:1px solid #b6d4fe}
+.alert.show{display:block}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:700px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap}
+th{background:#f1f3f5;font-weight:600;color:var(--muted);position:sticky;top:0}
+th:first-child,td:first-child{text-align:left}
+tr.best{background:var(--best-bg)}
+tr.best td:first-child{font-weight:700}
+td .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:600}
+.badge-ok{background:var(--green-bg);color:var(--green)}
+.badge-warn{background:var(--yellow-bg);color:#664d03}
+.badge-no{background:var(--red-bg);color:var(--red)}
+.section-title{font-size:.9rem;font-weight:600;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.pct-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pct-chip{display:flex;align-items:center;gap:4px;background:#f1f3f5;border-radius:6px;padding:4px 8px;font-size:.82rem}
+.pct-chip input{width:52px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:.82rem;text-align:center}
+.pct-chip button{background:none;border:none;cursor:pointer;color:var(--red);font-size:1rem;line-height:1}
+.add-pct{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:.82rem;cursor:pointer}
+footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:20px;padding-bottom:20px}
+</style>
+</head>
+<body>
+<h1>Calculadora de compra d'habitatge</h1>
+<p class="subtitle">Catalunya — ITP, hipoteca i despeses</p>
+
+<div class="summary-grid" id="summary"></div>
+<div class="alerts" id="alerts">
+  <div class="alert alert-info" id="alert-frac"></div>
+  <div class="alert alert-warn" id="alert-margin"></div>
+  <div class="alert alert-warn" id="alert-agency"></div>
+  <div class="alert alert-warn" id="alert-90"></div>
+  <div class="alert alert-danger" id="alert-none"></div>
+</div>
+
+<div class="grid grid-3">
+  <div class="card">
+    <h2>Preu i estalvis</h2>
+    <label for="price">Preu del pis (€)</label>
+    <input type="number" id="price" value="225000" step="1000">
+    <label for="savings">Estalvis propis (€)</label>
+    <input type="number" id="savings" value="35000" step="500">
+    <label for="donation">Donació rebuda (€)</label>
+    <input type="number" id="donation" value="20000" step="500">
+  </div>
+  <div class="card">
+    <h2>Impostos i despeses</h2>
+    <label for="itp">ITP (%)</label>
+    <input type="number" id="itp" value="10" step="0.5" min="0" max="100">
+    <label for="agency">Honoraris agència (%)</label>
+    <input type="number" id="agency" value="2.5" step="0.1" min="0" max="100">
+    <label for="agencyVat">IVA honoraris agència (%)</label>
+    <input type="number" id="agencyVat" value="21" step="1" min="0" max="100">
+    <label for="fixed">Despeses fixes (notaria, registre…) (€)</label>
+    <input type="number" id="fixed" value="3000" step="100">
+  </div>
+  <div class="card">
+    <h2>Hipoteca</h2>
+    <label for="rate">Tipus d'interès anual (%)</label>
+    <input type="number" id="rate" value="2.4" step="0.1" min="0" max="20">
+    <label for="years">Termini (anys)</label>
+    <input type="number" id="years" value="30" step="1" min="1" max="50">
+    <div class="section-title" style="margin-top:10px">Fraccionament ITP</div>
+    <div class="toggle-row">
+      <label class="toggle"><input type="checkbox" id="fracToggle"><span class="slider"></span></label>
+      <span style="font-size:.85rem">Fraccionar ITP</span>
+    </div>
+    <label for="fracMonths">Mesos de fraccionament</label>
+    <input type="number" id="fracMonths" value="36" step="1" min="1" max="120">
+    <label for="fracRate">Interessos fraccionament (%)</label>
+    <input type="number" id="fracRate" value="0" step="0.1" min="0" max="20">
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>Percentatges d'hipoteca a comparar</h2>
+  <div class="pct-chips" id="pctChips"></div>
+  <button class="add-pct" id="addPct">+ Afegir</button>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead id="thead"></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<footer>Eina orientativa — consulta un professional abans de prendre decisions financeres.</footer>
+
+<script>
+const fmt = v => v.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const fmtShort = v => v.toLocaleString('ca-ES',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' €';
+
+let pcts = [80, 85, 90, 95, 100];
+
+const $ = id => document.getElementById(id);
+const val = id => parseFloat($(id).value) || 0;
+
+function renderChips() {
+  const c = $('pctChips');
+  c.innerHTML = '';
+  pcts.forEach((p, i) => {
+    const d = document.createElement('div');
+    d.className = 'pct-chip';
+    const inp = document.createElement('input');
+    inp.type = 'number'; inp.value = p; inp.min = 1; inp.max = 100; inp.step = 1;
+    inp.addEventListener('input', () => { pcts[i] = parseFloat(inp.value) || 0; calc(); });
+    d.appendChild(inp);
+    d.insertAdjacentHTML('beforeend', '%');
+    if (pcts.length > 1) {
+      const btn = document.createElement('button');
+      btn.textContent = '×';
+      btn.addEventListener('click', () => { pcts.splice(i, 1); renderChips(); calc(); });
+      d.appendChild(btn);
+    }
+    c.appendChild(d);
+  });
+}
+
+$('addPct').addEventListener('click', () => {
+  pcts.push(80);
+  renderChips();
+  calc();
+});
+
+function monthlyMortgage(principal, annualRate, years) {
+  if (annualRate === 0) return principal / (years * 12);
+  const i = annualRate / 100 / 12;
+  const n = years * 12;
+  return principal * i / (1 - Math.pow(1 + i, -n));
+}
+
+function monthlyFrac(itp, months, annualRate) {
+  if (annualRate === 0) return itp / months;
+  const i = annualRate / 100 / 12;
+  return itp * i / (1 - Math.pow(1 + i, -months));
+}
+
+function calc() {
+  const price = val('price');
+  const savings = val('savings');
+  const donation = val('donation');
+  const itpPct = val('itp');
+  const agencyPct = val('agency');
+  const agencyVatPct = val('agencyVat');
+  const fixedCosts = val('fixed');
+  const rate = val('rate');
+  const years = val('years');
+  const fracOn = $('fracToggle').checked;
+  const fracMo = val('fracMonths');
+  const fracRt = val('fracRate');
+
+  const available = savings + donation;
+  const itpTotal = price * itpPct / 100;
+  const agencyNet = price * agencyPct / 100;
+  const agencyVat = agencyNet * agencyVatPct / 100;
+  const agencyGross = agencyNet + agencyVat;
+
+  // Summary
+  $('summary').innerHTML = `
+    <div class="summary-item"><div class="val">${fmtShort(price)}</div><div class="lbl">Preu del pis</div></div>
+    <div class="summary-item"><div class="val">${fmtShort(available)}</div><div class="lbl">Total disponible</div></div>
+    <div class="summary-item"><div class="val">${fmtShort(itpTotal)}</div><div class="lbl">ITP (${itpPct}%)</div></div>
+    <div class="summary-item"><div class="val">${fmt(agencyGross)}</div><div class="lbl">Honoraris agència</div></div>
+    <div class="summary-item"><div class="val">${fmtShort(fixedCosts)}</div><div class="lbl">Despeses fixes</div></div>
+  `;
+
+  // Compute rows
+  const sorted = [...pcts].sort((a, b) => a - b);
+  const rows = sorted.map(pct => {
+    const mortgage = price * pct / 100;
+    const entry = price - mortgage;
+    const costNoFrac = entry + itpTotal + agencyGross + fixedCosts;
+    const costFrac = entry + agencyGross + fixedCosts;
+    const cost = fracOn ? costFrac : costNoFrac;
+    const diff = available - cost;
+    const status = diff >= 3000 ? 'ok' : diff >= 0 ? 'warn' : 'no';
+    const monthly = monthlyMortgage(mortgage, rate, years);
+    const fracMonthly = fracOn ? monthlyFrac(itpTotal, fracMo, fracRt) : 0;
+    const totalMonthlyDuring = monthly + fracMonthly;
+    const totalMonthlyAfter = monthly;
+    return { pct, mortgage, entry, itpTotal, agencyNet, agencyVat, agencyGross, fixedCosts, costNoFrac, costFrac, cost, diff, status, monthly, fracMonthly, totalMonthlyDuring, totalMonthlyAfter, available };
+  });
+
+  // Find best viable
+  let bestIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].status === 'ok' || rows[i].status === 'warn') {
+      if (bestIdx === -1 || rows[i].pct < rows[bestIdx].pct) bestIdx = i;
+    }
+  }
+  // If none viable, pick the one with smallest negative diff
+  if (bestIdx === -1) {
+    let maxDiff = -Infinity;
+    rows.forEach((r, i) => { if (r.diff > maxDiff) { maxDiff = r.diff; bestIdx = i; } });
+  }
+
+  // Table
+  const statusLabel = { ok: 'Quadra', warn: 'Va justa', no: 'No quadra' };
+  const statusBadge = { ok: 'badge-ok', warn: 'badge-warn', no: 'badge-no' };
+
+  $('thead').innerHTML = `<tr><th>Concepte</th>${rows.map((r,i) => `<th${i===bestIdx?' style="color:var(--green)"':''}>${r.pct}%${i===bestIdx?' ★':''}</th>`).join('')}</tr>`;
+
+  const rowDefs = [
+    ['Hipoteca', r => fmt(r.mortgage)],
+    ['Entrada', r => fmt(r.entry)],
+    ['ITP', r => fmt(r.itpTotal)],
+    ['Honoraris agència (net)', r => fmt(r.agencyNet)],
+    ['IVA honoraris', r => fmt(r.agencyVat)],
+    ['Honoraris agència (total)', r => fmt(r.agencyGross)],
+    ['Despeses fixes', r => fmt(r.fixedCosts)],
+    ['Cost inicial (sense fracc.)', r => fmt(r.costNoFrac)],
+    ['Cost inicial (amb fracc.)', r => fmt(r.costFrac)],
+    ['Total disponible', r => fmt(r.available)],
+    ['Diferència', r => `<span style="color:${r.diff>=0?'var(--green)':'var(--red)'}; font-weight:600">${r.diff >= 0 ? '+' : ''}${fmt(r.diff)}</span>`],
+    ['Resultat', r => `<span class="badge ${statusBadge[r.status]}">${statusLabel[r.status]}</span>`],
+    ['—', null],
+    ['Quota hipoteca / mes', r => fmt(r.monthly)],
+  ];
+  if (fracOn) {
+    rowDefs.push(['Quota ITP fracc. / mes', r => fmt(r.fracMonthly)]);
+    rowDefs.push(['Total mensual (durant fracc.)', r => `<strong>${fmt(r.totalMonthlyDuring)}</strong>`]);
+    rowDefs.push(['Total mensual (després fracc.)', r => fmt(r.totalMonthlyAfter)]);
+  }
+
+  $('tbody').innerHTML = rowDefs.map(([label, fn]) => {
+    if (!fn) return `<tr><td colspan="${rows.length+1}" style="height:6px;border:none"></td></tr>`;
+    return `<tr>${[`<td style="text-align:left;font-weight:500">${label}</td>`, ...rows.map((r,i) => `<td${i===bestIdx?' style="background:var(--best-bg)"':''}>${fn(r)}</td>`)].join('')}</tr>`;
+  }).join('');
+
+  // Alerts
+  const anyOk = rows.some(r => r.status !== 'no');
+  const allOkNoFrac = rows.some(r => {
+    const diffNF = r.available - r.costNoFrac;
+    return diffNF >= 0;
+  });
+  const onlyWithFrac = fracOn && anyOk && !allOkNoFrac;
+  const anyWarn = rows.some(r => r.status === 'warn');
+  const noAgencyRows = rows.map(r => {
+    const costNA = r.cost - r.agencyGross;
+    return r.available - costNA;
+  });
+  const agencyBlocks = rows.some((r, i) => r.status === 'no' && noAgencyRows[i] >= 0);
+  const any90plus = rows.some(r => (r.status === 'ok' || r.status === 'warn') && r.pct > 90);
+  const noneViable = !anyOk;
+
+  const setAlert = (id, show, msg) => { const el = $(id); el.classList.toggle('show', show); el.innerHTML = msg || ''; };
+  setAlert('alert-frac', onlyWithFrac, '💡 L\'operació només quadra si fraccioneu l\'ITP.');
+  setAlert('alert-margin', anyWarn && !noneViable, '⚠️ Alguna opció va justa — el marge és inferior a 3.000 €.');
+  setAlert('alert-agency', agencyBlocks, '⚠️ Els honoraris d\'agència fan que alguna opció no quadri. Sense agència, seria viable.');
+  setAlert('alert-90', any90plus, '⚠️ Hipoteques per sobre del 90% poden ser més difícils d\'obtenir.');
+  setAlert('alert-none', noneViable, '❌ Cap opció quadra amb els paràmetres actuals.');
+}
+
+// Bind inputs
+document.querySelectorAll('input[type=number]').forEach(el => el.addEventListener('input', calc));
+$('fracToggle').addEventListener('change', calc);
+
+renderChips();
+calc();
+</script>
+</body>
+</html>
