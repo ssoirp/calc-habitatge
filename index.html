@@ -249,7 +249,7 @@ footer{text-align:center;color:var(--muted);font-size:.72rem;margin-top:16px;pad
 <div class="tab-content" id="tab-loans">
   <div class="card">
     <h2>Comparador de préstecs ràpids</h2>
-    <p class="subtitle-inline">Ofertes online sense necessitat de domiciliar nòmina o canviar de banc. El TIN mostrat és una estimació basada en el rang públic anunciat per cada portal.</p>
+    <p class="subtitle-inline">Ofertes online sense necessitat de domiciliar nòmina o canviar de banc. El TIN mostrat és una estimació basada en el rang públic anunciat per cada portal, i el cost mensual inclou les comissions públiques conegudes.</p>
     <div class="field-row">
       <div class="field"><label>Import a demanar (€)</label><input type="number" id="loanAmount" value="10000" step="500" min="500"></div>
       <div class="field"><label>Mesos</label><input type="number" id="loanMonths" value="48" step="1" min="1"></div>
@@ -302,6 +302,25 @@ const loanSeed = {
   scrapedAt: '2026-06-18',
   offers: [
     {
+      id: 'bankintercard-personal',
+      provider: 'Bankintercard',
+      product: 'Préstamo personal online',
+      sourceUrl: 'https://www.bankinterconsumerfinance.com/financiacion/prestamos/prestamo-personal',
+      sourceLabel: 'Bankinter Consumer Finance',
+      noPayroll: true,
+      noPayrollText: 'Sense vinculacions i sense canviar de banc',
+      amountMin: 4000,
+      amountMax: 30000,
+      monthsMin: 24,
+      monthsMax: 120,
+      tinMin: 4.45,
+      tinMax: 12.49,
+      taeMin: 4.54,
+      taeMax: 13.23,
+      fees: '0 % obertura si el procés és 100 % online',
+      notes: 'Rang públic del simulador; el tipus final depèn del perfil.'
+    },
+    {
       id: 'bbva-rapid',
       provider: 'BBVA',
       product: 'Préstamo Rápido Online Sin Documentos',
@@ -319,25 +338,6 @@ const loanSeed = {
       taeMax: 6.803,
       fees: 'Sense comissió d’obertura',
       notes: 'Tipus publicat específic per a l’opció sense nòmina.'
-    },
-    {
-      id: 'oney-personal',
-      provider: 'Oney',
-      product: 'Préstamo Personal Online',
-      sourceUrl: 'https://prestamos.oney.es/',
-      sourceLabel: 'Oney',
-      noPayroll: true,
-      noPayrollText: 'Sense canviar de banc',
-      amountMin: 1000,
-      amountMax: 45000,
-      monthsMin: 12,
-      monthsMax: 120,
-      tinMin: 8.0,
-      tinMax: 12.46,
-      taeMin: 8.3,
-      taeMax: 13.2,
-      fees: 'Sense comissions',
-      notes: 'El TIN varia segons import, termini i destí.'
     },
     {
       id: 'cetelem-projectes',
@@ -362,23 +362,83 @@ const loanSeed = {
       notes: 'Per sota de 10.000 €, el màxim publicat és 60 mesos.'
     },
     {
-      id: 'bankintercard-personal',
-      provider: 'Bankintercard',
-      product: 'Préstamo personal online',
-      sourceUrl: 'https://www.bankinterconsumerfinance.com/financiacion/prestamos/prestamo-personal',
-      sourceLabel: 'Bankinter Consumer Finance',
+      id: 'cofidis-personal',
+      provider: 'Cofidis',
+      product: 'Préstamo Personal',
+      sourceUrl: 'https://www.cofidis.es/es/prestamo-personal.html',
+      sourceLabel: 'Cofidis',
       noPayroll: true,
-      noPayrollText: 'Sense vinculacions i sense canviar de banc',
-      amountMin: 4000,
+      noPayrollText: 'Sense domiciliar nòmina ni canviar de banc',
+      amountMin: 6000,
+      amountMax: 60000,
+      monthsMin: 12,
+      monthsMax: 96,
+      tinMin: 6.77,
+      tinMax: 12.05,
+      taeMin: 6.95,
+      taeMax: 12.76,
+      fees: 'Sense comissions d’obertura ni manteniment',
+      notes: 'Oferta pública flexible amb resposta ràpida.'
+    },
+    {
+      id: 'lea-bank-personal',
+      provider: 'Lea Bank',
+      product: 'Préstamo personal online',
+      sourceUrl: 'https://prestamo.leabank.es/',
+      sourceLabel: 'Lea Bank',
+      noPayroll: true,
+      noPayrollText: 'Sense canviar de banc',
+      amountMin: 5000,
       amountMax: 30000,
-      monthsMin: 24,
+      monthsMin: 6,
+      monthsMax: 96,
+      tinMin: 6.95,
+      tinMax: 16.5,
+      taeMin: 7.32,
+      taeMax: 18.79,
+      openingFeePct: 3,
+      openingFeeFinanced: true,
+      monthlyFee: 2,
+      fees: '3 % formalització finançada + 2 €/mes de manteniment',
+      notes: 'Cost mensual ajustat amb comissió finançada i quota fixa mensual.'
+    },
+    {
+      id: 'oney-personal',
+      provider: 'Oney',
+      product: 'Préstamo Personal Online',
+      sourceUrl: 'https://prestamos.oney.es/',
+      sourceLabel: 'Oney',
+      noPayroll: true,
+      noPayrollText: 'Sense canviar de banc',
+      amountMin: 1000,
+      amountMax: 45000,
+      monthsMin: 12,
       monthsMax: 120,
-      tinMin: 4.45,
-      tinMax: 12.49,
-      taeMin: 4.54,
-      taeMax: 13.23,
-      fees: '0 % obertura si el procés és 100 % online',
-      notes: 'Rang públic del simulador; el tipus final depèn del perfil.'
+      tinMin: 8.0,
+      tinMax: 12.46,
+      taeMin: 8.3,
+      taeMax: 13.2,
+      fees: 'Sense comissions',
+      notes: 'El TIN varia segons import, termini i destí.'
+    },
+    {
+      id: 'santander-consumer-personal',
+      provider: 'Santander Consumer',
+      product: 'Préstamo personal online',
+      sourceUrl: 'https://www.santanderconsumer.es/prestamos/personal.html',
+      sourceLabel: 'Santander Consumer',
+      noPayroll: true,
+      noPayrollText: 'Sense canviar de banc',
+      amountMin: 3000,
+      amountMax: 12000,
+      monthsMin: 24,
+      monthsMax: 72,
+      tinMin: 10.86,
+      tinMax: 10.86,
+      taeMin: 12.49,
+      taeMax: 12.49,
+      fees: 'Sense comissió d’obertura',
+      notes: 'Tipus fix visible al simulador públic actual.'
     }
   ]
 };
@@ -401,6 +461,17 @@ function monthlyAmortization(principal, annualRate, months) {
   if (annualRate === 0) return principal / months;
   const i = annualRate / 100 / 12;
   return principal * i / (1 - Math.pow(1 + i, -months));
+}
+
+function loanFeeBreakdown(offer, amount) {
+  const openingPct = offer.openingFeePct || 0;
+  const openingFixed = offer.openingFeeFixed || 0;
+  const openingFee = (amount * openingPct / 100) + openingFixed;
+  const financedOpening = offer.openingFeeFinanced ? openingFee : 0;
+  const monthlyFee = offer.monthlyFee || 0;
+  const financedPrincipal = amount + financedOpening;
+  const upfrontFees = offer.openingFeeFinanced ? 0 : openingFee;
+  return { openingFee, financedOpening, monthlyFee, financedPrincipal, upfrontFees };
 }
 
 function formatDate(dateStr) {
@@ -673,9 +744,12 @@ function buildLoanRows() {
   const rows = loanData.offers.map(offer => {
     const compatible = offerSupports(offer, amount, months);
     const tin = estimateTin(offer, amount, months);
-    const monthly = monthlyAmortization(amount, tin, months);
-    const totalCost = (monthly * months) - amount;
-    return { ...offer, compatible, tin, monthly, totalCost };
+    const feeBreakdown = loanFeeBreakdown(offer, amount);
+    const amortizedMonthly = monthlyAmortization(feeBreakdown.financedPrincipal, tin, months);
+    const monthly = amortizedMonthly + feeBreakdown.monthlyFee;
+    const totalRepayment = (amortizedMonthly * months) + (feeBreakdown.monthlyFee * months) + feeBreakdown.upfrontFees;
+    const totalCost = totalRepayment - amount;
+    return { ...offer, compatible, tin, monthly, totalCost, ...feeBreakdown };
   }).filter(row => mode === 'all' ? true : row.compatible);
 
   rows.sort((a, b) => sortBy === 'tin' ? a.tin - b.tin || a.monthly - b.monthly : a.monthly - b.monthly || a.tin - b.tin);
@@ -714,6 +788,7 @@ function renderLoans() {
     <th>Quota / mes</th>
     <th>Cost total</th>
     <th>Rang admès</th>
+    <th>Comissions</th>
     <th>Condicions</th>
     <th>Font</th>
   </tr>`;
@@ -729,7 +804,8 @@ function renderLoans() {
     <td><strong>${fmt(row.monthly)}</strong></td>
     <td>${fmt(row.totalCost)}</td>
     <td>${fmtShort(row.amountMin)} - ${fmtShort(row.amountMax)}<br>${row.monthsMin} - ${row.monthsMax} mesos</td>
-    <td style="text-align:left">${row.noPayrollText}<br><span style="color:var(--muted)">${row.fees}</span></td>
+    <td style="text-align:left">${row.fees}${row.monthlyFee ? `<br><span style="color:var(--muted)">+ ${fmt(row.monthlyFee)} / mes</span>` : ''}</td>
+    <td style="text-align:left">${row.noPayrollText}<br><span style="color:var(--muted)">${row.notes}</span></td>
     <td class="loan-source" style="text-align:left"><a href="${row.sourceUrl}" target="_blank" rel="noopener noreferrer">${row.sourceLabel}</a><br><span style="color:var(--muted)">${row.notes}</span></td>
   </tr>`).join('');
 
@@ -746,6 +822,7 @@ function renderLoans() {
       <div class="r"><span class="k">Cost total</span><span class="v">${fmt(row.totalCost)}</span></div>
       <div class="r"><span class="k">Import</span><span class="v">${fmtShort(row.amountMin)} - ${fmtShort(row.amountMax)}</span></div>
       <div class="r"><span class="k">Mesos</span><span class="v">${row.monthsMin} - ${row.monthsMax}</span></div>
+      <div class="r"><span class="k">Comissions</span><span class="v">${row.fees}</span></div>
       <div class="r"><span class="k">Condicions</span><span class="v">${row.noPayrollText}</span></div>
       <div class="r"><span class="k">Font</span><span class="v"><a href="${row.sourceUrl}" target="_blank" rel="noopener noreferrer">${row.sourceLabel}</a></span></div>
     </div>
@@ -774,6 +851,16 @@ async function refreshLoanData() {
   }
 }
 
+async function initLoanData() {
+  try {
+    const res = await fetch(`data/prestecs-rapids.json?ts=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json && Array.isArray(json.offers)) loanData = json;
+  } catch {}
+  renderLoans();
+}
+
 // ---- Bind ----
 document.querySelectorAll('#tab-full input[type=number]').forEach(el => el.addEventListener('input', calcFull));
 $('fracToggle').addEventListener('change', calcFull);
@@ -789,7 +876,7 @@ $('rx-price').addEventListener('input', () => { $('price').value = $('rx-price')
 renderChips();
 calcFull();
 calcRedux();
-renderLoans();
+initLoanData();
 </script>
 </body>
 </html>
