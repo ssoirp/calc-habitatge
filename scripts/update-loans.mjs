@@ -235,15 +235,15 @@ const providers = [
     }
   },
   {
-    id: 'santander-consumer-personal',
-    provider: 'Santander Consumer',
-    product: 'Préstamo personal online',
-    sourceUrl: 'https://www.santanderconsumer.es/prestamos/personal.html',
-    sourceLabel: 'Santander Consumer',
+    id: ‘santander-consumer-personal’,
+    provider: ‘Santander Consumer’,
+    product: ‘Préstamo personal online’,
+    sourceUrl: ‘https://www.santanderconsumer.es/prestamos/personal.html’,
+    sourceLabel: ‘Santander Consumer’,
     noPayroll: true,
-    noPayrollText: 'Sense canviar de banc',
-    fees: 'Sense comissió d’obertura',
-    notes: 'Tipus fix visible al simulador públic actual.',
+    noPayrollText: ‘Sense canviar de banc’,
+    fees: ‘Sense comissió d’obertura’,
+    notes: ‘Tipus fix visible al simulador públic actual.’,
     fallback: {
       amountMin: 3000,
       amountMax: 12000,
@@ -255,7 +255,7 @@ const providers = [
       taeMax: 12.49
     },
     extract: async () => {
-      const html = await fetchText('https://www.santanderconsumer.es/prestamos/personal.html');
+      const html = await fetchText(‘https://www.santanderconsumer.es/prestamos/personal.html’);
       const amounts = extractTwoNumbers(html, /id="amountMin">Min\s*([0-9.]+)€<\/span>\s*<span id="amountMax">Max\s*([0-9.]+)€/i);
       const months = extractTwoNumbers(html, /id="monthsMin">Min\s*([0-9]+)\s*meses<\/span>\s*<span id="monthsMax">Max\s*([0-9]+)\s*meses/i);
       const tin = extractFirstNumber(html, /Tipo deudor:\s*<span>([0-9]+(?:,[0-9]+)?)<\/span>%/i);
@@ -269,6 +269,223 @@ const providers = [
         tinMax: tin,
         taeMin: tae,
         taeMax: tae
+      };
+    }
+  },
+  {
+    id: ‘n26-personal’,
+    provider: ‘N26’,
+    product: ‘Préstamo Personal’,
+    sourceUrl: ‘https://n26.com/es-es/prestamo-personal’,
+    sourceLabel: ‘N26’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina; cal compte N26’,
+    fees: ‘Sense comissió d’obertura’,
+    notes: ‘TIN des de 3,99 %; oferta personalitzada segons scoring creditici. Diners en < 24 h.’,
+    fallback: {
+      amountMin: 1000, amountMax: 15000,
+      monthsMin: 12, monthsMax: 60,
+      tinMin: 3.99, tinMax: 12.90,
+      taeMin: 4.06, taeMax: 13.69
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://n26.com/es-es/prestamo-personal’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%\s*T\.?I\.?N.*?([0-9]+(?:,[0-9]+)?)%\s*T\.?I\.?N/is);
+      return {
+        amountMin: 1000, amountMax: 15000,
+        monthsMin: 12, monthsMax: 60,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 4.06, taeMax: 13.69
+      };
+    }
+  },
+  {
+    id: ‘revolut-personal’,
+    provider: ‘Revolut’,
+    product: ‘Préstamo Personal’,
+    sourceUrl: ‘https://www.revolut.com/es-ES/personal-loans/’,
+    sourceLabel: ‘Revolut’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina; cal compte Revolut’,
+    fees: ‘Sense comissions d’obertura ni estudi’,
+    notes: ‘El TIN depèn del perfil i historial. Rang ampli segons scoring.’,
+    fallback: {
+      amountMin: 2000, amountMax: 30000,
+      monthsMin: 3, monthsMax: 96,
+      tinMin: 3.49, tinMax: 14.49,
+      taeMin: 3.55, taeMax: 15.26
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://www.revolut.com/es-ES/personal-loans/’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN.*?([0-9]+(?:,[0-9]+)?)%\s*TIN/is);
+      return {
+        amountMin: 2000, amountMax: 30000,
+        monthsMin: 3, monthsMax: 96,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 3.55, taeMax: 15.26
+      };
+    }
+  },
+  {
+    id: ‘ing-naranja’,
+    provider: ‘ING’,
+    product: ‘Préstamo Naranja’,
+    sourceUrl: ‘https://www.ing.es/prestamos-personales’,
+    sourceLabel: ‘ING’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina; cal obrir compte ING’,
+    fees: ‘Sense comissions d’obertura, estudi ni cancel·lació’,
+    notes: ‘Tipus variable segons perfil. Sense cap comissió.’,
+    fallback: {
+      amountMin: 3000, amountMax: 60000,
+      monthsMin: 12, monthsMax: 96,
+      tinMin: 5.49, tinMax: 12.49,
+      taeMin: 5.63, taeMax: 13.23
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://www.ing.es/prestamos-personales’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN.*?([0-9]+(?:,[0-9]+)?)%\s*TIN/is);
+      return {
+        amountMin: 3000, amountMax: 60000,
+        monthsMin: 12, monthsMax: 96,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 5.63, taeMax: 13.23
+      };
+    }
+  },
+  {
+    id: ‘younited-credit’,
+    provider: ‘Younited Credit’,
+    product: ‘Préstamo Personal’,
+    sourceUrl: ‘https://es.younited-credit.com/’,
+    sourceLabel: ‘Younited Credit’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina ni canviar de banc’,
+    fees: ‘Sense comissions ocultes’,
+    notes: ‘Fintech francesa. Aprovació en < 48 h. Cal justificar ingressos estables.’,
+    fallback: {
+      amountMin: 1000, amountMax: 50000,
+      monthsMin: 24, monthsMax: 96,
+      tinMin: 9.56, tinMax: 12.48,
+      taeMin: 9.99, taeMax: 13.98
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://es.younited-credit.com/’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN.*?([0-9]+(?:,[0-9]+)?)%\s*TIN/is);
+      return {
+        amountMin: 1000, amountMax: 50000,
+        monthsMin: 24, monthsMax: 96,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 9.99, taeMax: 13.98
+      };
+    }
+  },
+  {
+    id: ‘openbank-personal’,
+    provider: ‘Openbank’,
+    product: ‘Préstamo Personal’,
+    sourceUrl: ‘https://www.openbank.es/open-to-learn/pedir-prestamo-personal’,
+    sourceLabel: ‘Openbank (Santander)’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina’,
+    fees: ‘Sense comissió d’obertura ni estudi’,
+    notes: ‘Rang TIN estret i competitiu. Import màx limitat a 24.000 €.’,
+    fallback: {
+      amountMin: 300, amountMax: 24000,
+      monthsMin: 12, monthsMax: 60,
+      tinMin: 4.95, tinMax: 6.95,
+      taeMin: 5.06, taeMax: 7.18
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://www.openbank.es/open-to-learn/pedir-prestamo-personal’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%.*?([0-9]+(?:,[0-9]+)?)%\s*TIN/is);
+      return {
+        amountMin: 300, amountMax: 24000,
+        monthsMin: 12, monthsMax: 60,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 5.06, taeMax: 7.18
+      };
+    }
+  },
+  {
+    id: ‘evo-banco-personal’,
+    provider: ‘EVO Banco’,
+    product: ‘Préstamo Inteligente EVO’,
+    sourceUrl: ‘https://www.evobanco.com/prestamos/’,
+    sourceLabel: ‘EVO Banco’,
+    noPayroll: true,
+    noPayrollText: ‘Sense vinculacions; cal Compte Intel·ligent EVO’,
+    fees: ‘Sense cap comissió (obertura, estudi ni cancel·lació)’,
+    notes: ‘Tipus fix 9,45 % sense vinculació. Amb nòmina+assegurança: 8,45 %.’,
+    fallback: {
+      amountMin: 3000, amountMax: 50000,
+      monthsMin: 12, monthsMax: 96,
+      tinMin: 9.45, tinMax: 9.45,
+      taeMin: 9.87, taeMax: 9.87
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://www.evobanco.com/prestamos/’);
+      const tin = extractFirstNumber(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN/i);
+      return {
+        amountMin: 3000, amountMax: 50000,
+        monthsMin: 12, monthsMax: 96,
+        tinMin: tin, tinMax: tin,
+        taeMin: 9.87, taeMax: 9.87
+      };
+    }
+  },
+  {
+    id: ‘bbva-personal-client’,
+    provider: ‘BBVA’,
+    product: ‘Préstamo Personal Online (clients)’,
+    sourceUrl: ‘https://www.bbva.es/personas/productos/prestamos/prestamo-personal-online.html’,
+    sourceLabel: ‘BBVA’,
+    noPayroll: false,
+    noPayrollText: ‘Per a clients BBVA; pot requerir vinculació’,
+    fees: ‘Sense comissió d’obertura’,
+    notes: ‘Opció per a clients existents. Import superior al préstec ràpid.’,
+    fallback: {
+      amountMin: 3000, amountMax: 75000,
+      monthsMin: 12, monthsMax: 96,
+      tinMin: 7.80, tinMax: 7.80,
+      taeMin: 8.08, taeMax: 8.08
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://www.bbva.es/personas/productos/prestamos/prestamo-personal-online.html’);
+      const tin = extractFirstNumber(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN/i);
+      const tae = extractFirstNumber(html, /([0-9]+(?:,[0-9]+)?)%\s*TAE/i);
+      return {
+        amountMin: 3000, amountMax: 75000,
+        monthsMin: 12, monthsMax: 96,
+        tinMin: tin, tinMax: tin,
+        taeMin: tae, taeMax: tae
+      };
+    }
+  },
+  {
+    id: ‘prestalo-personal’,
+    provider: ‘Préstalo’,
+    product: ‘Préstamo Personal’,
+    sourceUrl: ‘https://prestalo.com/prestamo-personal/’,
+    sourceLabel: ‘Préstalo’,
+    noPayroll: true,
+    noPayrollText: ‘Sense domiciliar nòmina ni canviar de banc’,
+    fees: ‘Sense comissions d’obertura, estudi ni amortització’,
+    notes: ‘Marketplace/broker; canalitza a Bankinter CF i altres. El TIN final depèn del partner.’,
+    fallback: {
+      amountMin: 100, amountMax: 60000,
+      monthsMin: 12, monthsMax: 96,
+      tinMin: 4.45, tinMax: 14.95,
+      taeMin: 4.54, taeMax: 15.88
+    },
+    extract: async () => {
+      const html = await fetchText(‘https://prestalo.com/prestamo-personal/’);
+      const tin = extractTwoNumbers(html, /([0-9]+(?:,[0-9]+)?)%\s*TIN.*?([0-9]+(?:,[0-9]+)?)%\s*TIN/is);
+      return {
+        amountMin: 100, amountMax: 60000,
+        monthsMin: 12, monthsMax: 96,
+        tinMin: tin[0], tinMax: tin[1],
+        taeMin: 4.54, taeMax: 15.88
       };
     }
   }
